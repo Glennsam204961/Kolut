@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <title>WEB,DEV2.0</title>
+  <link href="/img/Picsart_24-08-18_18-44-11-013.jpg" rel="stylesheet">
+  <style>
+    html, body {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      font-family: 'Roboto', sans-serif;
+      background-color: #000; /* All black background */
+      color: #EFEFEF; /* Light text color */
+      display: flex;
+      flex-direction: column;
+    }
+
+    .section {
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 15px;
+      margin-bottom: 10px;
+      border-radius: 10px;
+    }
+
+    #about-me {
+      display: flex; /* Flexbox for side-by-side layout */
+      align-items: center; /* Center vertically */
+      justify-content: center;
+      position: relative;
+      height: 400px; /* Set height for the About Me section */
+    }
+
+    #about-me::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 50%; /* Cover half the section */
+      height: 100%;
+      background-image: url('/img/your-cover-photo.jpg'); /* Your cover photo */
+      background-size: cover;
+      background-position: center;
+      border-radius: 10px 0 0 10px; /* Rounded left corners */
+      z-index: 1; /* Place behind the content */
+    }
+
+    #about-me img {
+      border-radius: 50%;
+      border: 3px solid #EFEFEF;
+      width: 120px;
+      height: 120px;
+      margin-right: 15px; /* Space between image and text */
+      position: relative;
+      z-index: 2; /* Place above the cover photo */
+      animation: rotate-pulse 6s infinite ease-in-out;
+    }
+
+    #about-me .name {
+      font-size: 24pt;
+      color: #EFEFEF;
+      font-weight: bold;
+      margin-bottom: 15px;
+      position: relative;
+      z-index: 2; /* Place above the cover photo */
+    }
+
+    /* Animation for profile picture */
+    @keyframes rotate-pulse {
+      0%, 100% { transform: scale(1) rotate(0deg); }
+      50% { transform: scale(1.1) rotate(5deg); }
+    }
+
+    h2 {
+      color: #EFEFEF;
+      text-align: left; /* Align text to the left */
+      position: relative;
+      z-index: 2; /* Place above the cover photo */
+    }
+
+    /* Chatbox styles */
+    .chatbox {
+      display: flex;
+      flex-direction: column;
+      height: 300px;
+      justify-content: space-between;
+    }
+
+    .messages {
+      flex-grow: 1;
+      overflow-y: auto;
+      padding: 10px;
+    }
+
+    .message {
+      background: rgba(0, 255, 255, 0.2);
+      color: #00ffcc;
+      padding: 10px;
+      border-radius: 10px;
+      margin: 5px 0;
+    }
+
+    .user-message {
+      background: rgba(255, 105, 180, 0.2);
+      color: #ff69b4;
+      text-align: right;
+    }
+
+    .input-area {
+      display: flex;
+      margin-top: 10px;
+    }
+
+    .input-text {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #EFEFEF;
+      border-radius: 10px;
+      background-color: rgba(255, 255, 255, 0.1);
+      color: #EFEFEF;
+      outline: none;
+    }
+
+    .submit {
+      background-color: #EFEFEF;
+      color: #000;
+      border: none;
+      font-weight: bold;
+      padding: 10px 20px;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+
+    .submit:hover {
+      background-color: #B0BEC5;
+    }
+
+    .typing-indicator {
+      font-style: italic;
+      color: #EFEFEF;
+      margin: 5px 0;
+    }
+
+    .section:last-child {
+      margin-top: auto;
+    }
+
+    /* Button styles for Follow Me */
+    h2 button {
+      background-color: #00ffcc; /* Button color */
+      color: #000; /* Text color */
+      border: none;
+      border-radius: 10px;
+      padding: 10px 20px;
+      cursor: pointer;
+      transition: background-color 0.3s ease; /* Smooth transition */
+    }
+
+    h2 button:hover {
+      background-color: #ff69b4; /* Change color on hover */
+    }
+
+/* Dialog box styles */
+.dialog {
+  display: none; /* Hidden by default */
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  z-index: 10;
+  width: 90%; /* Set width (adjust as needed) */
+  max-width: 250px; /* Max width for larger screens */
+  height: auto; /* Set to auto to accommodate content */
+  max-height: 80%; /* Limit max height */
+  overflow-y: auto; /* Enable scrolling if content exceeds max height */
+}
+    .dialog h2 {
+      margin: 0 0 15px;
+      color: #000;
+    }
+
+    .dialog input,
+    .dialog textarea {
+      width: 90%;
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 5px;
+      border: 1px solid #EFEFEF;
+    }
+
+    .dialog button {
+      background-color: white;
+      color: black;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .dialog button:hover {
+      background-color: floralwhite;
+    }
+  </style>
+</head>
+<body>
+  <!-- About Me Section -->
+  <div id="about-me" class="section">
+    <img src="/img/Picsart_24-08-18_18-44-11-013.jpg" alt="Profile Picture">
+    <div style="z-index: 2; position: relative;">
+      <div class="name"></div>
+      <h2>Glenn Sam Evangelio</h2>
+      <p>Programmer web developer • SKILLS HTML CSS JS</p>
+    </div>
+  </div>
+
+  <!-- Chatbot Section -->
+  <div class="section">
+    <h2>
+      <button class="submit" onclick="window.location.href='https://www.facebook.com/profile.php?id=100084911114022'">Follow Me</button>
+    </h2>
+    <div class="chatbox">
+      <div class="messages" id="messagesdivid">
+        <div class="message">Hi, I'm Glenn. How can I help you?</div>
+      </div>
+      <div class="typing-indicator" id="typingIndicator" style="display: none;">Typing...</div>
+      <div class="input-area">
+        <input type="text" class="input-text" placeholder="Type your message..." id="message_box">
+        <button class="submit" onclick="send_text()">Send</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contact Form Dialog -->
+  <div class="dialog" id="contactDialog">
+    <h2>Contact</h2>
+    <form action="https://api.web3forms.com/submit" method="POST">
+
+    <!-- Replace with your Access Key -->
+    <input type="hidden" name="access_key" value="3e4f758d-de26-4bd1-96d6-6f4c005d757f">
+    <form id="contactForm" onsubmit="submitContactForm(event)">
+      <input type="text" id="Number" placeholder="Number"name="Number"required>
+      <input type="text" id="Name" placeholder="Name"name="Name"required>
+      <textarea id="contactMessage" rows="4" placeholder="Your Message" name="Message"required></textarea>
+      <button type="submit">Submit</button>
+      <button type="button" onclick="closeDialog()">Cancel</button>
+    </form>
+  </div>
+
+  <!-- Footer -->
+  <div class="section">
+    <p align="center">&copy;GSE2005</p>
+  </div>
+
+<script>
+    let responseIndex = 0; // Initialize a counter for bot responses
+    const responses = [
+        "Hello",
+        "How can I assist you?",
+        "I can help you with various inquiries.",
+        "If you'd like to reach out directly, please fill out the contact form."
+    ];
+
+    function send_text() {
+        var userMessage = document.getElementById("message_box").value; // Get the input text
+        if (userMessage != "") {
+            // Create user's message div
+            var userElem = document.createElement('div');
+            userElem.className = 'message user-message'; 
+            userElem.textContent = userMessage; // Set user message text
+            document.getElementById("messagesdivid").appendChild(userElem); // Append user's message
+
+            // Clear input box
+            document.getElementById('message_box').value = "";
+
+            // Scroll to bottom
+            document.getElementById("messagesdivid").scrollTo(0, document.getElementById("messagesdivid").scrollHeight);
+
+            // Show typing indicator
+            var typingIndicator = document.getElementById("typingIndicator");
+            typingIndicator.style.display = "block";
+
+            // Delay the response
+            setTimeout(function() {
+                bot_response();
+                typingIndicator.style.display = "none"; // Hide typing indicator after response
+            }, 2000);
+        }
+    }
+
+    function bot_response() {
+        // Get the bot's response based on the current index
+        const botMessage = responses[responseIndex];
+
+        // Create bot's message div
+        var botElem = document.createElement('div');
+        botElem.className = 'message'; // Class for bot's messages
+        botElem.textContent = botMessage; // Set bot message text
+        document.getElementById("messagesdivid").appendChild(botElem); // Append bot's message
+
+        // Scroll to bottom
+        document.getElementById("messagesdivid").scrollTo(0, document.getElementById("messagesdivid").scrollHeight);
+
+        // Increment the index and check if we need to show the contact form
+        responseIndex++;
+        if (responseIndex >= responses.length) {
+            // Hide the chatbox and show the contact form
+            document.querySelector('.chatbox').style.display = 'none'; // Hide chatbox
+            showContactForm(); // Show the contact form
+        }
+    }
+
+    function showContactForm() {
+        // Display the contact form dialog
+        document.getElementById('contactDialog').style.display = 'block';
+    }
+
+    function closeDialog() {
+        // Close the contact form dialog
+        document.getElementById('contactDialog').style.display = 'none';
+    }
+
+    function submitContactForm(event) {
+        event.preventDefault(); // Prevent the form from submitting normally
+        const name = document.getElementById('contactName').value;
+        const email = document.getElementById('contactEmail').value;
+        const message = document.getElementById('contactMessage').value;
+
+        // Handle the contact form submission here
+        // You can implement an AJAX call to send the data to your server or API
+        
+        // Display a success message
+        alert(`Thank you, ${name}! Your message has been sent.`);
+
+        // Close the dialog
+        closeDialog();
+
+        // Optionally, reset the form
+        document.getElementById('contactForm').reset();
+    }
+</script>
